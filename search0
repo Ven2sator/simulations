@@ -1,0 +1,59 @@
+
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+import random
+
+# Konstanten
+pi = np.pi
+e = np.e
+i = 1j
+c = 299792458  # Lichtgeschwindigkeit in m/s
+
+# Ziel: alle Werte möglichst nahe 0
+def is_near_zero(array, tol=0.01):
+    return all(abs(x) < tol for x in array)
+
+# Operationen mit den Konstanten
+def transform(x):
+    op = random.choice(['+', '-', '*', '/'])
+    k = random.choice([pi, e, i, c])
+    try:
+        if op == '+':
+            return x + k
+        elif op == '-':
+            return x - k
+        elif op == '*':
+            return x * k
+        elif op == '/':
+            return x / k
+    except:
+        return x  # im Fehlerfall keine Änderung
+
+# Hauptprogramm
+def main():
+    values = [0.0 for _ in range(7)]
+    steps = 0
+
+    while not is_near_zero(values):
+        values = [transform(x) for x in values]
+        steps += 1
+        if steps > 1000:  # Notausstieg
+            break
+
+    print(f"Fertig nach {steps} Schritten.")
+    print("Endwerte:", values)
+
+    # Herz zeichnen
+    t = np.linspace(0, 2 * np.pi, 1000)
+    x = 16 * np.sin(t) ** 3
+    y = 13 * np.cos(t) - 5 * np.cos(2*t) - 2 * np.cos(3*t) - np.cos(4*t)
+    plt.plot(x, y, color='red')
+    plt.title("Herz der Konstanten")
+    plt.axis('equal')
+    plt.axis('off')
+    plt.show()
+
+main()
